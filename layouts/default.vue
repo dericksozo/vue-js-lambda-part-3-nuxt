@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <img src="~/assets/logo.png">
+    <nuxt />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
       domain: 'alien-go-home.auth0.com',
       clientID: 'NQipGcpZsGn0CEpJPbVFoKZDY0I7WuVP',
       audience: 'https://micro-blog-app',
-      redirectUri: 'http://localhost:8080/callback',
+      redirectUri: 'http://localhost:3000/callback',
       responseType: 'token id_token',
       scope: 'openid profile'
     })
