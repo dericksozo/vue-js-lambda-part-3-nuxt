@@ -1,66 +1,112 @@
 <template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        nuxt-lambda-part-3
-      </h1>
-      <h2 class="subtitle">
-        My cool Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
+<div class="container">
+  <h1>Latest Micro-Posts</h1>
+  <div class="users">
+    <button v-if="!profile" v-on:click="signIn">
+      Sign In
+    </button>
+    <button v-if="profile" v-on:click="signOut">
+      Sign Out
+    </button>
+    <p v-if="profile">
+      Hello there, {{ profile.name }}. Why don't you
+      <router-link :to="{ name: 'ShareThoughts' }">
+        share your thoughts?
+      </router-link>
+    </p>
+  </div>
+  <p class="error" v-if="error">{{ error }}</p>
+  <div class="micro-posts-container">
+    <div class="micro-post"
+         v-for="(microPost, index) in microPosts"
+         v-bind:item="microPost"
+         v-bind:index="index"
+         v-bind:key="microPost.id">
+      <div class="created-at">
+        {{ `${microPost.createdAt.getDate()}/${microPost.createdAt.getMonth() + 1}/${microPost.createdAt.getFullYear()}` }}
       </div>
+      <p class="text">{{ microPost.text }}</p>
+      <p class="author">- {{ microPost.author ? microPost.author.name : 'Unknown' }}</p>
     </div>
-  </section>
+  </div>
+</div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import * as Auth0 from 'auth0-web'
+import MicroPostService from '../MicroPostsService'
 
 export default {
-  components: {
-    Logo
+  name: 'HelloWorld',
+  data () {
+    return {
+      microPosts: [],
+      error: '',
+      profile: null
+    }
+  },
+  async created () {
+    try {
+      this.microPosts = await MicroPostService.getMicroPosts()
+      Auth0.subscribe(() => {
+        this.profile = Auth0.getProfile()
+      })
+    } catch (error) {
+      this.error = error.message
+    }
+  },
+  methods: {
+    signIn: Auth0.signIn,
+    signOut () {
+      Auth0.signOut({
+        clientID: 'NQipGcpZsGn0CEpJPbVFoKZDY0I7WuVP',
+        returnTo: 'http://localhost:8080/'
+      })
+    }
   }
 }
 </script>
 
-<style>
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+div.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+p.error {
+  border: 1px solid #ff5b5f;
+  background-color: #ffc5c1;
+  padding: 10px;
+  margin-bottom: 15px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+div.micro-post {
+  position: relative;
+  border: 1px solid #5bd658;
+  background-color: #bcffb8;
+  padding: 10px;
+  margin-bottom: 15px;
 }
 
-.links {
-  padding-top: 15px;
+div.created-at {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 15px 5px 15px;
+  background-color: darkgreen;
+  color: white;
+  font-size: 13px;
+}
+
+p.text {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+p.author {
+  font-style: italic;
+  margin-top: 5px;
 }
 </style>
