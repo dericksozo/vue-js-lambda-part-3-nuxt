@@ -1,12 +1,17 @@
 <script>
-import * as Auth0 from 'auth0-web'
+let Auth0 = null;
+
+if (process.browser) {
+  Auth0 = require('auth0-web');
+}
 
 export default {
-  name: 'Callback',
   created () {
-    Auth0.handleAuthCallback(() => {
-      this.$router.push('/')
-    })
+    if (Auth0) {
+      Auth0.handleAuthCallback(() => {
+        this.$router.push('/')
+      });  
+    }
   }
 }
 </script>
