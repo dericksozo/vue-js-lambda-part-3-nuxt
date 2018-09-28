@@ -1,5 +1,5 @@
 <script>
-import MicroPostsService from '../MicroPostsService'
+import MicroPostsService from '~/services/MicroPostsService';
 
 export default {
   name: 'ShareThoughts',
