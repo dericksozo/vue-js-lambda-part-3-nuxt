@@ -5,6 +5,9 @@ const { Nuxt, Builder } = require('nuxt')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
+const bodyParser = require('body-parser');
+
+const routes = require('./routes');
 
 app.set('port', port)
 
@@ -21,6 +24,12 @@ async function start() {
     const builder = new Builder(nuxt)
     await builder.build()
   }
+
+  // use bodyParser to parse application/json content-type
+  app.use(bodyParser.json());
+  
+  // The API
+  app.use('/micro-posts', routes);
 
   // Give nuxt middleware to express
   app.use(nuxt.render)
