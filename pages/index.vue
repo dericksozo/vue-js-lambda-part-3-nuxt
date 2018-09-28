@@ -1,40 +1,36 @@
 <template>
-<div class="container">
-  <h1>Latest Micro-Posts</h1>
-  <div class="users">
-    <button v-if="!profile" v-on:click="signIn">
-      Sign In
-    </button>
-    <button v-if="profile" v-on:click="signOut">
-      Sign Out
-    </button>
-    <p v-if="profile">
-      Hello there, {{ profile.name }}. Why don't you
-      <router-link :to="{ name: 'ShareThoughts' }">
-        share your thoughts?
-      </router-link>
-    </p>
-  </div>
-  <p class="error" v-if="error">{{ error }}</p>
-  <div class="micro-posts-container">
-    <div class="micro-post"
-         v-for="(microPost, index) in microPosts"
-         v-bind:item="microPost"
-         v-bind:index="index"
-         v-bind:key="microPost.id">
-      <div class="created-at">
-        {{ `${microPost.createdAt.getDate()}/${microPost.createdAt.getMonth() + 1}/${microPost.createdAt.getFullYear()}` }}
+  <div class="container">
+    <h1>Latest Micro-Posts</h1>
+    <div class="users">
+      <button v-if="!profile" v-on:click="signIn">
+        Sign In
+      </button>
+      <button v-if="profile" v-on:click="signOut">
+        Sign Out
+      </button>
+      <p v-if="profile">
+        Hello there, {{ profile.name }}. Why don't you
+        <nuxt-link to="/share">
+          share your thoughts?
+        </nuxt-link>
+      </p>
+    </div>
+    <p class="error" v-if="error">{{ error }}</p>
+    <div class="micro-posts-container">
+      <div class="micro-post" v-for="(microPost, index) in microPosts" v-bind:item="microPost" v-bind:index="index" v-bind:key="microPost.id">
+        <div class="created-at">
+          {{ `${microPost.createdAt.getDate()}/${microPost.createdAt.getMonth() + 1}/${microPost.createdAt.getFullYear()}` }}
+        </div>
+        <p class="text">{{ microPost.text }}</p>
+        <p class="author">- {{ microPost.author ? microPost.author.name : 'Unknown' }}</p>
       </div>
-      <p class="text">{{ microPost.text }}</p>
-      <p class="author">- {{ microPost.author ? microPost.author.name : 'Unknown' }}</p>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import * as Auth0 from 'auth0-web'
-import MicroPostService from '../MicroPostsService'
+import MicroPostService from '~/services/MicroPostsService'
 
 export default {
   name: 'HelloWorld',
