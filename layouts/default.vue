@@ -12,8 +12,8 @@ export default {
   name: 'App',
   created () {
     Auth0.configure({
-      domain: 'alien-go-home.auth0.com',
-      clientID: 'NQipGcpZsGn0CEpJPbVFoKZDY0I7WuVP',
+      domain: 'my-nuxt-app.auth0.com',
+      clientID: 'z6Wb7SucaAlat31wzYOY3MEIC31y7vQR',
       audience: 'https://micro-blog-app',
       redirectUri: 'http://localhost:8080/callback',
       responseType: 'token id_token',
