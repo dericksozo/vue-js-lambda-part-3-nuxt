@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 const auth0 = require('auth0');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -16,6 +17,13 @@ router.get('/', async (req, res) => {
   res.send(
     await collection.find({}).toArray()
   );
+});
+
+// also returns a single post if the id is provided.
+
+router.get('/:id', async (req, res) => {
+  const post = await loadIndividualPost(req.params.id);
+  res.send(post);
 });
 
 const checkJwt = jwt({
@@ -52,6 +60,7 @@ router.post('/', checkJwt, async (req, res) => {
 
     await collection.insertOne({
       text: req.body.text,
+      body: req.body.body,
       createdAt: new Date(),
       author: {
         sub: userInfo.sub,
@@ -67,6 +76,18 @@ router.post('/', checkJwt, async (req, res) => {
 async function loadMicroPostsCollection() {
   const client = await MongoClient.connect(MONGODB_URL);
   return client.db('micro-blog').collection('micro-posts');
+}
+
+async function loadIndividualPost(id) {
+  const client = await MongoClient.connect(MONGODB_URL);
+  const collection = await client.db('micro-blog').collection('micro-posts');
+  const post = await collection.find({ "_id": ObjectID(id) }).toArray();
+  
+  if (post.length >= 1) {
+    return post[0];
+  } else {
+    return {};
+  }
 }
 
 module.exports = router;
