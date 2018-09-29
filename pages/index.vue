@@ -16,6 +16,7 @@
       </p>
     </div>
     <p class="error" v-if="error">{{ error }}</p>
+
     <div class="micro-posts-container">
       <div class="micro-post" v-for="(microPost, index) in microPosts" v-bind:item="microPost" v-bind:index="index" v-bind:key="microPost.id">
         <div class="created-at">
@@ -23,8 +24,13 @@
         </div>
         <p class="text">{{ microPost.text }}</p>
         <p class="author">- {{ microPost.author ? microPost.author.name : 'Unknown' }}</p>
+
+
+        <nuxt-link v-if="microPost.body" :to="'/show/' + microPost['_id']">View full post</nuxt-link>
+
       </div>
     </div>
+
   </div>
 </template>
 
@@ -44,6 +50,7 @@ export default {
   async created () {
     try {
       this.microPosts = await MicroPostService.getMicroPosts()
+      console.log("microPosts", this.microPosts);
       Auth0.subscribe(() => {
         this.profile = Auth0.getProfile()
       })
@@ -55,7 +62,7 @@ export default {
     signIn: Auth0.signIn,
     signOut () {
       Auth0.signOut({
-        clientID: 'NQipGcpZsGn0CEpJPbVFoKZDY0I7WuVP',
+        clientID: 'z6Wb7SucaAlat31wzYOY3MEIC31y7vQR',
         returnTo: 'http://localhost:8080/'
       })
     }
