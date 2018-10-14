@@ -3,6 +3,8 @@ const pkg = require('./package')
 module.exports = {
   mode: 'universal',
 
+  css: ['~/assets/main.css'],
+  
   /*
   ** Headers of the page
   */

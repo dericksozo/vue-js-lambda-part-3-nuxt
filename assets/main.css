@@ -1,0 +1,73 @@
+.FlexGrid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.FlexGrid.FlexGrid--full {
+  width: 100%;
+}
+
+.FlexGrid.FlexGrid--alignItemsCenter {
+  align-items: center;
+}
+
+.FlexGrid.FlexGrid--reverse {
+  flex-direction: row-reverse;
+}
+
+.FlexGrid.FlexGrid--inline {
+  display: inline-flex;
+}
+
+.FlexGrid.FlexGrid--alignFlexEnd {
+  justify-content: flex-end;
+}
+
+.FlexGrid-cell {
+  flex: 1;
+}
+
+.FlexGrid-cell.FlexGrid-cell--autoSize {
+  flex: none;
+}
+
+.FlexGrid-cell.FlexGrid-cell--full {
+  flex: 0 0 100%;
+}
+
+.FlexGrid-cell.FlexGrid-cell--flex {
+  display: flex;
+}
+
+.FlexGrid-cell.FlexGrid-cell--alignCenter {
+  align-items: center;
+  justify-content: center;
+}
+
+.FlexGrid-cell.FlexGrid-cell--alignSelfCenter {
+  align-self: center;
+}
+
+.FlexGrid-cell.FlexGrid-cell--pushRight {
+  margin-left: auto;
+}
+
+.FlexGrid-cell.FlexGrid-cell--alignItemsCenter {
+  align-items: center;
+}
+
+.FlexGrid-cell.FlexGrid-cell--9of10 {
+  flex: 0 0 90%;
+}
+
+.FlexGrid-cell.FlexGrid-cell--1of2 {
+  flex: 0 0 50%;
+}
+
+.FlexGrid-cell.FlexGrid-cell--1of10 {
+  flex: 0 0 10%;
+}
+
+.FlexGrid-cell.FlexGrid-cell--halfScreen {
+  flex: 0 0 50vw;
+}
