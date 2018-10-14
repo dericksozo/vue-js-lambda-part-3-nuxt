@@ -11,11 +11,13 @@ import * as Auth0 from 'auth0-web'
 export default {
   name: 'App',
   created () {
+    console.log("process from default", process);
+
     Auth0.configure({
-      domain: 'my-nuxt-app.auth0.com',
-      clientID: 'z6Wb7SucaAlat31wzYOY3MEIC31y7vQR',
-      audience: 'https://micro-blog-app',
-      redirectUri: 'http://localhost:8080/callback',
+      domain: process.env.domain,
+      clientID: process.env.clientID,
+      audience: process.env.audience,
+      redirectUri: process.env.redirectUri,
       responseType: 'token id_token',
       scope: 'openid profile'
     })
