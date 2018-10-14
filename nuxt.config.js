@@ -1,4 +1,6 @@
-const pkg = require('./package')
+require('dotenv').config();
+
+const pkg = require('./package');
 
 module.exports = {
   mode: 'universal',
@@ -23,6 +25,12 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' }
-  
+  loading: { color: '#fff' },
+
+  env: {
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.CLIENT_ID,
+    audience: process.env.AUDIENCE,
+    redirectUri: process.env.REDIRECT_URI
+  }
 }
